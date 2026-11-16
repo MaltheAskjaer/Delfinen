@@ -1,10 +1,14 @@
 classDiagram
+    class Formand
+
     class Medlem {
         medlemsnummer
         navn
         fødselsdato
         medlemskab
     }
+
+    class Kasserer
 
     class Medlemskab {
         Passivt
@@ -46,8 +50,10 @@ classDiagram
         betalt
     }
 
+    Formand -- Medlem : opretter
     Medlem --> Medlemskab : medlemskab
     Medlem <|-- AktivtMedlem
+    Kasserer "1" -- "0..*" Kontingent : administrerer
     AktivtMedlem <|-- Motionist
     AktivtMedlem <|-- Konkurrencesvømmer
     Hold <|-- Ungdomshold
