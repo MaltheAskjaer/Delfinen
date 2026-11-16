@@ -1,0 +1,54 @@
+classDiagram
+    direction LR
+
+    class Medlem {
+        medlemsnummer
+        navn
+        fødselsdato
+    }
+
+    class AktivtMedlem
+    class PassivtMedlem
+    class Motionist
+    class Konkurrencesvømmer
+
+    class Kontingent {
+        år
+        beløb
+        betalt
+    }
+
+    class Disciplin {
+        navn
+    }
+
+    class Træner
+
+    class Træningsresultat {
+        tid
+        dato
+    }
+
+    class Stævne {
+        navn
+        dato
+    }
+
+    class Stævneresultat {
+        placering
+        tid
+    }
+
+    Medlem <|-- AktivtMedlem
+    Medlem <|-- PassivtMedlem
+    AktivtMedlem <|-- Motionist
+    AktivtMedlem <|-- Konkurrencesvømmer
+
+    Medlem "1" -- "0..*" Kontingent : har
+    Konkurrencesvømmer "0..*" -- "1..*" Disciplin : er aktiv i
+    Træner "1" -- "0..*" Konkurrencesvømmer : træner
+    Konkurrencesvømmer "1" -- "0..*" Træningsresultat : har bedste tider
+    Disciplin "1" -- "0..*" Træningsresultat : gælder for
+    Konkurrencesvømmer "1" -- "0..*" Stævneresultat : har deltaget med
+    Disciplin "1" -- "0..*" Stævneresultat : gælder for
+    Stævne "1" -- "0..*" Stævneresultat : har resultater
