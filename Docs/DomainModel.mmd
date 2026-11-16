@@ -1,0 +1,64 @@
+classDiagram
+    class Medlem {
+        medlemsnummer
+        navn
+        fødselsdato
+        medlemskab
+    }
+
+    class Medlemskab {
+        Passivt
+        Aktivt
+    }
+
+    class AktivtMedlem
+    class Motionist
+    class Konkurrencesvømmer
+    class Træner
+
+    class Disciplin {
+        butterfly
+        crawl
+        rygcrawl
+        brystsvømning
+    }
+
+    class Træningsresultat {
+        tid
+        dato
+    }
+
+    class Stævneresultat {
+        stævnenavn
+        dato
+        tid
+        placering
+    }
+
+    class Stævne
+    class Hold
+    class Ungdomshold
+    class Seniorhold
+
+    class Kontingent {
+        kontingentår
+        beløb
+        betalt
+    }
+
+    Medlem --> Medlemskab : medlemskab
+    Medlem <|-- AktivtMedlem
+    AktivtMedlem <|-- Motionist
+    AktivtMedlem <|-- Konkurrencesvømmer
+    Hold <|-- Ungdomshold
+    Hold <|-- Seniorhold
+    Medlem "1" -- "1" Kontingent : har
+    Konkurrencesvømmer "0..*" -- "1" Hold : er del af
+    Træner "1" -- "0..*" Konkurrencesvømmer : træner
+    Konkurrencesvømmer "0..*" -- "1..*" Disciplin : svømmer
+    Konkurrencesvømmer "1" -- "0..*" Træningsresultat : har
+    Disciplin "1" -- "0..*" Træningsresultat : registreres for
+    Konkurrencesvømmer "0..*" -- "0..*" Stævne : deltager i
+    Konkurrencesvømmer "1" -- "0..*" Stævneresultat : har
+    Disciplin "1" -- "0..*" Stævneresultat : registreres for
+    Stævne "1" -- "0..*" Stævneresultat : har
