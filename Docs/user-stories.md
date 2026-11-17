@@ -1,9 +1,5 @@
 # User stories – Svømmeklubben Delfinen
 
-Forslag til Product Backlog ud fra kravene F1–F14. Prioritet og størrelse er et første estimat, som gruppen bør gennemgå og blive enige om, før historierne lægges på boardet.
-
-Størrelse er estimeret i story points efter Fibonacci-skalaen (1, 2, 3, 5, 8). Prioritet 1 er højest.
-
 | Prioritet | ID | User story | Krav | Størrelse |
 |---:|---|---|---|---:|
 | 1 | US1 | Opret medlem og få medlemsnummer | F1, F3 | 3 |
