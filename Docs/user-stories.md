@@ -2,19 +2,19 @@
 
 | Prioritet | ID | User story | Krav | Størrelse |
 |---:|---|---|---|---:|
-| 1 | US1 | Opret medlem og få medlemsnummer | F1, F3 | 3 |
-| 2 | US2 | Registrér konkurrencesvømmerens discipliner | F2 | 2 |
-| 3 | US3 | Beregn årligt kontingent | F5 | 3 |
-| 4 | US4 | Se alle medlemmer | F4 | 3 |
-| 5 | US5 | Registrér kontingentbetaling | F7 | 2 |
-| 6 | US6 | Se medlemmer i restance | F8 | 3 |
-| 7 | US7 | Se forventet kontingentindtægt | F6 | 2 |
-| 8 | US8 | Se junior- og seniorhold | F9 | 3 |
-| 9 | US9 | Registrér bedste træningstid | F10 | 5 |
-| 10 | US10 | Registrér stævneresultat | F11 | 3 |
-| 11 | US11 | Se en svømmers resultater | F12 | 3 |
-| 12 | US12 | Se top 5 pr. disciplin og aldersgruppe | F13 | 5 |
-| 13 | US13 | Bevar data mellem programstarter | F14 | 5 |
+| 1 | US1 | Opret medlem og få medlemsnummer | F1, F3 | M |
+| 2 | US2 | Registrér konkurrencesvømmerens discipliner | F2 | S |
+| 3 | US3 | Beregn årligt kontingent | F5 | M |
+| 4 | US4 | Se alle medlemmer | F4 | M |
+| 5 | US5 | Registrér kontingentbetaling | F7 | S |
+| 6 | US6 | Se medlemmer i restance | F8 | M |
+| 7 | US7 | Se forventet kontingentindtægt | F6 | S |
+| 8 | US8 | Se junior- og seniorhold | F9 | M |
+| 9 | US9 | Registrér bedste træningstid | F10 | L |
+| 10 | US10 | Registrér stævneresultat | F11 | M |
+| 11 | US11 | Se en svømmers resultater | F12 | M |
+| 12 | US12 | Se top 5 pr. disciplin og aldersgruppe | F13 | L |
+| 13 | US13 | Bevar data mellem programstarter | F14 | L |
 
 ---
 
