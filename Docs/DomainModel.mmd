@@ -5,19 +5,13 @@ classDiagram
         medlemsnummer
         navn
         fødselsdato
-        medlemskab
+        Passivt/Aktivt
+        kontingent
     }
 
     class Kasserer
-
-    class Medlemskab {
-        Passivt
-        Aktivt
-    }
-
-    class AktivtMedlem
-    class Motionist
     class Konkurrencesvømmer
+
     class Træner
 
     class Disciplin {
@@ -51,20 +45,17 @@ classDiagram
     }
 
     Formand -- Medlem : opretter
-    Medlem --> Medlemskab : medlemskab
-    Medlem <|-- AktivtMedlem
     Kasserer "1" -- "0..*" Kontingent : administrerer
-    AktivtMedlem <|-- Motionist
-    AktivtMedlem <|-- Konkurrencesvømmer
+    Medlem <|-- Konkurrencesvømmer
     Hold <|-- Ungdomshold
     Hold <|-- Seniorhold
     Medlem "1" -- "1" Kontingent : har
     Konkurrencesvømmer "0..*" -- "1" Hold : er del af
     Træner "1" -- "0..*" Konkurrencesvømmer : træner
     Konkurrencesvømmer "0..*" -- "1..*" Disciplin : svømmer
-    Konkurrencesvømmer "1" -- "0..*" Træningsresultat : har
     Disciplin "1" -- "0..*" Træningsresultat : registreres for
+    Konkurrencesvømmer "1" -- "0..*" Træningsresultat : har
     Konkurrencesvømmer "0..*" -- "0..*" Stævne : deltager i
     Konkurrencesvømmer "1" -- "0..*" Stævneresultat : har
-    Disciplin "1" -- "0..*" Stævneresultat : registreres for
     Stævne "1" -- "0..*" Stævneresultat : har
+    Disciplin "1" -- "0..*" Stævneresultat : registreres for
