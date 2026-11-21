@@ -5,6 +5,8 @@ import domain.ClubTreasurer;
 import domain.Trainer;
 import filehandling.FileHandler;
 
+import java.time.LocalDate;
+
 public class Controller {
     ClubPresident president;
     ClubTreasurer treasurer;
@@ -28,6 +30,14 @@ public class Controller {
 
     public int getTrainerPin(){
         return trainer.getPin();
+    }
+
+    public void addMember(String firstName, String lastName, LocalDate birthday, boolean active){
+        president.addMember(firstName, lastName, birthday, active);
+    }
+
+    public void addCompetitiveSwimmer(String firstName, String lastName, LocalDate birthday, boolean active){
+        president.addCompetitiveSwimmer(firstName, lastName, birthday, active);
     }
 
 }

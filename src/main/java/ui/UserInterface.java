@@ -1,6 +1,10 @@
 package ui;
 
 import controller.Controller;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -33,30 +37,31 @@ public class UserInterface {
     }
 
     private void presidentStart(){
-        if(checkPin(controller.getPresidentPin())){
+        if(correctPin(controller.getPresidentPin())){
+            System.out.println("Du er nu logget ind som formand!\n");
             while(true){
-                System.out.println("Du er nu logget ind som formand!\n");
                 System.out.println("""
-                1. Afslut program
+                1. Opret medlem
+                2. Afslut program
                 """);
                 int choice = readInt("Vælg: ");
 
                 switch(choice){
-                    case 1 -> {
+                    case 1 -> addMember();
+                    case 2 -> {
                         return;
                     }
                     default -> System.out.println("Ugyldigt valg! Vælg igen");
                 }
             }
-
         }
     }
 
     private void treasurerStart(){
-        if(checkPin(controller.getTreasurerPin())){
+        if(correctPin(controller.getTreasurerPin())){
             System.out.println("Logget ind!");
+            System.out.println("Du er nu logget ind som kasserer!\n");
             while(true){
-                System.out.println("Du er nu logget ind som formand!\n");
                 System.out.println("""
                 1. Afslut program
                 """);
@@ -73,9 +78,9 @@ public class UserInterface {
     }
 
     private void trainerStart(){
-        if(checkPin(controller.getTrainerPin())){
+        if(correctPin(controller.getTrainerPin())){
+            System.out.println("Du er nu logget ind som træner!\n");
             while(true){
-                System.out.println("Du er nu logget ind som formand!\n");
                 System.out.println("""
                 1. Afslut program
                 """);
@@ -92,7 +97,7 @@ public class UserInterface {
 
     }
 
-    private boolean checkPin(int otherPin){
+    private boolean correctPin(int otherPin){
         do{
             int pin = readInt("Pinkode (Skriv 0 for at fortryde): ");
             if(pin == 0){
@@ -122,5 +127,77 @@ public class UserInterface {
         }
     }
 
+    private LocalDate readDate(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                return LocalDate.now();
+            }
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                return LocalDate.parse(input, formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("\"" + input + "\" er ikke en dato på formen dd-mm-åååå. Prøv igen.");
+            }
+        }
+    }
+
+    private String readName(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String name = scanner.nextLine().trim();
+
+            if (name.matches("[\\p{L}][\\p{L} '\\-]*")) {
+                return name;
+            }
+
+            System.out.println("Navnet må kun indeholde bogstaver.");
+        }
+    }
+
+    private void addMember(){
+        boolean competitive = false;
+
+        System.out.println();
+        String firstName = readName("Fornavn: ");
+        firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
+
+        String lastName = readName("Efternavn: ");
+        lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
+
+        LocalDate birthday = readDate("fødselsdag [dd-mm-åååå]: ");
+
+        System.out.println("""
+                
+                1. Aktivt medlemskab
+                2. Passivt medlemskab
+                """);
+        boolean active = switch(readInt("Vælg: ")){
+            case 1 -> true;
+            case 2 -> false;
+            default -> false;
+        };
+
+        if(active){
+            System.out.println("""
+                
+                1. Konkurrencesvømmer
+                2. Motionist
+                """);
+            competitive = switch(readInt("Vælg: ")){
+                case 1 -> true;
+                case 2 -> false;
+                default -> false;
+            };
+        }
+
+        if(competitive){
+            controller.addCompetitiveSwimmer(firstName, lastName, birthday, active);
+            return;
+        }
+
+        controller.addMember(firstName, lastName, birthday, active);
+    }
 
 }
