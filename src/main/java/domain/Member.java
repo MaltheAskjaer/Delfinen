@@ -1,5 +1,6 @@
 package domain;
 import java.time.LocalDate;
+import java.time.Period;
 
 public class Member {
 
@@ -48,6 +49,10 @@ public class Member {
             throw new IllegalArgumentException("Fødselsdag må ikke være i fremtiden.");
         }
         this.birthday = birthday;
+    }
+
+    public int calculateAge(LocalDate date){
+        return Period.between(birthday, date).getYears();
     }
 
     public void setActive(boolean active) {
