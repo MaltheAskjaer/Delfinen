@@ -63,7 +63,7 @@ public class Member {
 
     public String getName()
     {
-        return name;
+        return this.firstName + " " + this.lastName;
     }
 
     public LocalDate getBirthday()
@@ -73,18 +73,17 @@ public class Member {
 
     public int getAgeOn(LocalDate date)
     {
-        long antalDage = ChronoUnit.DAYS.between(birthDate, date);
+        long antalDage = ChronoUnit.DAYS.between(birthday, date);
         return (int) (antalDage / 365);
     }
 
     @Override
     public String toString()
     {
-        return "Member{" +
-                "memberNumber=" + memberNumber +
-                ", name='" + name + '\'' +
-                ", birthDate=" + birthDate +
-                ", membershipForm='" + membershipForm + '\'' +
-                '}';
+        String result = "\n";
+        result += "Medlemsnummer: " + this.memberId + ", " + (active ? "Aktivt" : "Passivt") + " medlemskab";
+        result += "\nNavn: " + this.getName();
+        result += "\nAlder: " + this.getAgeOn(LocalDate.now()) + " år";
+        return result;
     }
 }

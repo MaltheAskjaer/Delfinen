@@ -1,33 +1,39 @@
 package ui;
 
 import controller.Controller;
+import domain.Member;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-public class UserInterface {
+public class UserInterface
+{
     Scanner scanner = new Scanner(System.in);
     Controller controller = new Controller();
 
-    public void start(){
-        while(true){
+    public void start()
+    {
+        while (true)
+        {
             System.out.println("Velkommen til Delfinen!\n");
             System.out.println("Vælg bruger: ");
             System.out.println("""
-                1. Formand
-                2. Kasserer
-                3. Træner
-                4. Afslut program
-                """);
+                    1. Formand
+                    2. Kasserer
+                    3. Træner
+                    4. Afslut program
+                    """);
             int choice = readInt("Vælg: ");
 
-            switch(choice){
+            switch (choice)
+            {
                 case 1 -> presidentStart();
                 case 2 -> treasurerStart();
                 case 3 -> trainerStart();
-                case 4 -> {
+                case 4 ->
+                {
                     return;
                 }
                 default -> System.out.println("Ugyldigt valg! Vælg igen");
@@ -36,21 +42,27 @@ public class UserInterface {
 
     }
 
-    private void presidentStart(){
-        if(correctPin(controller.getPresidentPin())){
+    private void presidentStart()
+    {
+        if (correctPin(controller.getPresidentPin()))
+        {
             System.out.println("Du er nu logget ind som formand!\n");
-            while(true){
+            while (true)
+            {
+                System.out.println();
                 System.out.println("""
-                1. Opret medlem
-                2. Se medlemsliste
-                3. Afslut program
-                """);
+                        1. Opret medlem
+                        2. Se medlemsliste
+                        3. Afslut program
+                        """);
                 int choice = readInt("Vælg: ");
 
-                switch(choice){
+                switch (choice)
+                {
                     case 1 -> addMember();
                     case 2 -> showAllMembers();
-                    case 3 -> {
+                    case 3 ->
+                    {
                         return;
                     }
                     default -> System.out.println("Ugyldigt valg! Vælg igen");
@@ -59,18 +71,23 @@ public class UserInterface {
         }
     }
 
-    private void treasurerStart(){
-        if(correctPin(controller.getTreasurerPin())){
+    private void treasurerStart()
+    {
+        if (correctPin(controller.getTreasurerPin()))
+        {
             System.out.println("Logget ind!");
             System.out.println("Du er nu logget ind som kasserer!\n");
-            while(true){
+            while (true)
+            {
                 System.out.println("""
-                1. Afslut program
-                """);
+                        1. Afslut program
+                        """);
                 int choice = readInt("Vælg: ");
 
-                switch(choice){
-                    case 1 -> {
+                switch (choice)
+                {
+                    case 1 ->
+                    {
                         return;
                     }
                     default -> System.out.println("Ugyldigt valg! Vælg igen");
@@ -79,17 +96,22 @@ public class UserInterface {
         }
     }
 
-    private void trainerStart(){
-        if(correctPin(controller.getTrainerPin())){
+    private void trainerStart()
+    {
+        if (correctPin(controller.getTrainerPin()))
+        {
             System.out.println("Du er nu logget ind som træner!\n");
-            while(true){
+            while (true)
+            {
                 System.out.println("""
-                1. Afslut program
-                """);
+                        1. Afslut program
+                        """);
                 int choice = readInt("Vælg: ");
 
-                switch(choice){
-                    case 1 -> {
+                switch (choice)
+                {
+                    case 1 ->
+                    {
                         return;
                     }
                     default -> System.out.println("Ugyldigt valg! Vælg igen");
@@ -99,79 +121,89 @@ public class UserInterface {
 
     }
 
-    private boolean correctPin(int otherPin){
-        do{
+    private boolean correctPin(int otherPin)
+    {
+        do
+        {
             int pin = readInt("Pinkode (Skriv 0 for at fortryde): ");
-            if(pin == 0){
+            if (pin == 0)
+            {
                 break;
             }
-            if(pin == otherPin){
+            if (pin == otherPin)
+            {
                 return true;
             }
             System.out.println("Forkert kode! Prøv igen\n");
-        }while(true);
+        } while (true);
 
         return false;
     }
 
-    private int readInt(String prompt) {
-        while (true) {
+    private int readInt(String prompt)
+    {
+        while (true)
+        {
             System.out.print(prompt);
             String input = scanner.nextLine().trim();
-            if(input.isBlank()){
+            if (input.isBlank())
+            {
                 return 0;
             }
-            try {
+            try
+            {
                 return Integer.parseInt(input);
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException e)
+            {
                 System.out.println("\"" + input + "\" er ikke et helt tal. Prøv igen.");
             }
         }
     }
-    private void showAllMembers() {
-        if (controller.getMembers().isEmpty()) {
-            System.out.println("Der er ingen medlemmer i klubben endnu.");
-        } else {
-            for (Member member : controller.getMembers()) {
-                int age = member.getAgeOn(LocalDate.now());
-                String status;
-                if (age < 18) {
-                    status = "Junior";
-                } else {
-                    status = "Senior";
-                }
-                System.out.println("Medlemsnummer: " + member.getMemberNumber());
-                System.out.println("Navn: " + member.getName());
-                System.out.println("Alder: " + age);
-                System.out.println("Status: " + status);
-                System.out.println("Medlemsform: " + member.getMembershipForm());
-                System.out.println();
-            }
+
+    private void showAllMembers()
+    {
+        if (controller.getMembers().isEmpty())
+        {
+            System.out.println("\nDer er ingen medlemmer i klubben endnu.");
+        } else
+        {
+            for (Member member : controller.getMembers())
+            {
+                System.out.println(member);
             }
         }
+    }
 
-    private LocalDate readDate(String prompt) {
-        while (true) {
+    private LocalDate readDate(String prompt)
+    {
+        while (true)
+        {
             System.out.print(prompt);
             String input = scanner.nextLine().trim();
-            if (input.isEmpty()) {
+            if (input.isEmpty())
+            {
                 return LocalDate.now();
             }
-            try {
+            try
+            {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                 return LocalDate.parse(input, formatter);
-            } catch (DateTimeParseException e) {
+            } catch (DateTimeParseException e)
+            {
                 System.out.println("\"" + input + "\" er ikke en dato på formen dd-mm-åååå. Prøv igen.");
             }
         }
     }
 
-    private String readName(String prompt) {
-        while (true) {
+    private String readName(String prompt)
+    {
+        while (true)
+        {
             System.out.print(prompt);
             String name = scanner.nextLine().trim();
 
-            if (name.matches("[\\p{L}][\\p{L} '\\-]*")) {
+            if (name.matches("[\\p{L}][\\p{L} '\\-]*"))
+            {
                 return name;
             }
 
@@ -179,7 +211,8 @@ public class UserInterface {
         }
     }
 
-    private void addMember(){
+    private void addMember()
+    {
         boolean competitive = false;
 
         System.out.println();
@@ -196,37 +229,45 @@ public class UserInterface {
                 1. Aktivt medlemskab
                 2. Passivt medlemskab
                 """);
-        boolean active = switch(readInt("Vælg: ")){
+        boolean active = switch (readInt("Vælg: "))
+        {
             case 1 -> true;
             case 2 -> false;
             default -> false;
         };
 
-        if(active){
+        if (active)
+        {
             System.out.println("""
-                
-                1. Konkurrencesvømmer
-                2. Motionist
-                """);
-            competitive = switch(readInt("Vælg: ")){
+                    
+                    1. Konkurrencesvømmer
+                    2. Motionist
+                    """);
+            competitive = switch (readInt("Vælg: "))
+            {
                 case 1 -> true;
                 case 2 -> false;
                 default -> false;
             };
         }
 
-        if(competitive){
-            try {
+        if (competitive)
+        {
+            try
+            {
                 controller.addCompetitiveSwimmer(firstName, lastName, birthday, active);
-            } catch(IllegalArgumentException e){
+            } catch (IllegalArgumentException e)
+            {
                 System.out.println("Medlemmet blev ikke oprettet. " + e.getMessage());
             }
             return;
         }
 
-        try{
+        try
+        {
             controller.addMember(firstName, lastName, birthday, active);
-        } catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e)
+        {
             System.out.println("Medlemmet blev ikke oprettet. " + e.getMessage());
         }
         }

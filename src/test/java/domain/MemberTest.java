@@ -20,6 +20,10 @@ class MemberTest {
 
         //Navn med tal
         assertThrows(IllegalArgumentException.class, () -> new Member("Jason9", "Duval", LocalDate.of(1996, 10, 19), true));
+
+        // Tomt eller ugyldigt efternavn
+        assertThrows(IllegalArgumentException.class, () -> new Member("Jason", "", LocalDate.of(1996, 10, 19), true));
+        assertThrows(IllegalArgumentException.class, () -> new Member("Jason", "Duval9", LocalDate.of(1996, 10, 19), true));
     }
 
     @Test
@@ -35,6 +39,32 @@ class MemberTest {
         assertNotEquals(member.getMemberId(), member2.getMemberId());
         assertEquals(member.getMemberId() + 1, member2.getMemberId());
 
+    }
+
+    @Test
+    void gettersReturnMemberDetails() {
+        LocalDate birthday = LocalDate.of(2000, 5, 15);
+        Member member = new Member("Maja", "Jensen", birthday, true);
+
+        assertEquals("Maja Jensen", member.getName());
+        assertEquals(birthday, member.getBirthday());
+    }
+
+    @Test
+    void ageIsCalculatedForProvidedDate() {
+        Member member = new Member("Maja", "Jensen", LocalDate.of(2000, 5, 15), true);
+
+        assertEquals(22, member.getAgeOn(LocalDate.of(2022, 6, 1)));
+    }
+
+    @Test
+    void toStringContainsMemberDetailsAndMembershipStatus() {
+        Member activeMember = new Member("Maja", "Jensen", LocalDate.of(2000, 5, 15), true);
+        Member passiveMember = new Member("Lars", "Hansen", LocalDate.of(1990, 1, 1), false);
+
+        assertTrue(activeMember.toString().contains("Aktivt medlemskab"));
+        assertTrue(activeMember.toString().contains("Navn: Maja Jensen"));
+        assertTrue(passiveMember.toString().contains("Passivt medlemskab"));
     }
 
 }
