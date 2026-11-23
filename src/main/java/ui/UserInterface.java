@@ -2,6 +2,7 @@ package ui;
 
 import controller.Controller;
 import domain.Member;
+import domain.MembershipFee;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -80,13 +81,14 @@ public class UserInterface
             while (true)
             {
                 System.out.println("""
-                        1. Afslut program
+                        1. Vis årskontingent.
+                        2. Afslut program
                         """);
                 int choice = readInt("Vælg: ");
 
-                switch (choice)
-                {
-                    case 1 ->
+                switch (choice) {
+                    case 1 -> showMembershipFees();
+                    case 2 ->
                     {
                         return;
                     }
@@ -94,6 +96,18 @@ public class UserInterface
                 }
             }
         }
+    }
+
+    public void showMembershipFees(){
+        LocalDate date = LocalDate.now();
+
+        System.out.println("\nÅrskontingenter: ");
+        for(Member member : controller.getMembers()){
+            int age = member.getAgeOn(date);
+            int amount = MembershipFee.calculateAmount(age, member.isActive());
+            System.out.println(member.getName() + " - " + amount + " kr.");
+        }
+        System.out.println();
     }
 
     private void trainerStart()

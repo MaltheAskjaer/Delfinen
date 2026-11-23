@@ -54,12 +54,12 @@ public class Member {
         this.birthday = birthday;
     }
 
-    public int calculateAge(LocalDate date){
-        return Period.between(birthday, date).getYears();
-    }
-
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public int getMemberId() {
@@ -78,8 +78,7 @@ public class Member {
 
     public int getAgeOn(LocalDate date)
     {
-        long antalDage = ChronoUnit.DAYS.between(birthday, date);
-        return (int) (antalDage / 365);
+        return Period.between(birthday, date).getYears();
     }
 
     @Override

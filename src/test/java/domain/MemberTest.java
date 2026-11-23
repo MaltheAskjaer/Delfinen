@@ -38,16 +38,6 @@ class MemberTest {
     }
 
     @Test
-    void alderenSkifterPåFødselsdag(){
-        LocalDate dayBefore18thBirthday = LocalDate.of(2026, 11, 23);
-        LocalDate eighteenthBirthday = LocalDate.of(2026, 11, 24);
-        Member member = new Member("Jason", "Duval", LocalDate.of(2008, 11, 24), true);
-
-        assertEquals(17, member.calculateAge(dayBefore18thBirthday));
-        assertEquals(18, member.calculateAge(eighteenthBirthday));
-    }
-
-    @Test
     void gettersReturnMemberDetails() {
         LocalDate birthday = LocalDate.of(2000, 5, 15);
         Member member = new Member("Maja", "Jensen", birthday, true);
@@ -58,9 +48,13 @@ class MemberTest {
 
     @Test
     void ageIsCalculatedForProvidedDate() {
-        Member member = new Member("Maja", "Jensen", LocalDate.of(2000, 5, 15), true);
+        LocalDate dayBefore18thBirthday = LocalDate.of(2026, 11, 23);
+        LocalDate eighteenthBirthday = LocalDate.of(2026, 11, 24);
+        Member member = new Member("Jason", "Duval", LocalDate.of(2008, 11, 24), true);
 
-        assertEquals(22, member.getAgeOn(LocalDate.of(2022, 6, 1)));
+        assertEquals(17, member.getAgeOn(dayBefore18thBirthday));
+        assertEquals(18, member.getAgeOn(eighteenthBirthday));
+
     }
 
     @Test
