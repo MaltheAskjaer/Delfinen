@@ -16,6 +16,21 @@ public class MembershipFee {
         this.paid = false;
     }
 
+    public static int calculateAmount(int age, boolean active){
+        if(!active){
+            return PASSIVE_MEMBERSHIP;
+        }
+        if(age < 18){
+            return ACTIVE_UNDER_18;
+        }
+        if(age >= 60){
+            return ACTIVE_18_TO_59 * (100 - DISCOUNT_PERCENT_FROM_60) / 100;
+        }
+        else{
+            return ACTIVE_18_TO_59;
+        }
+    }
+
 
 
 
