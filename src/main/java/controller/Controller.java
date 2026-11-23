@@ -2,10 +2,12 @@ package controller;
 
 import domain.ClubPresident;
 import domain.ClubTreasurer;
+import domain.Member;
 import domain.Trainer;
 import filehandling.FileHandler;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Controller {
     ClubPresident president;
@@ -38,6 +40,11 @@ public class Controller {
 
     public void addCompetitiveSwimmer(String firstName, String lastName, LocalDate birthday, boolean active){
         president.addCompetitiveSwimmer(firstName, lastName, birthday, active);
+    }
+
+    public ArrayList<Member> getMembers(){
+        return president.getMembers();
+
     }
 
 }

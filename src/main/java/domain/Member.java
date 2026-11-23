@@ -2,6 +2,9 @@ package domain;
 import java.time.LocalDate;
 import java.time.Period;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 public class Member {
 
     private static int nextId = 1;
@@ -61,5 +64,31 @@ public class Member {
 
     public int getMemberId() {
         return memberId;
+    }
+
+    public String getName()
+    {
+        return this.firstName + " " + this.lastName;
+    }
+
+    public LocalDate getBirthday()
+    {
+        return birthday;
+    }
+
+    public int getAgeOn(LocalDate date)
+    {
+        long antalDage = ChronoUnit.DAYS.between(birthday, date);
+        return (int) (antalDage / 365);
+    }
+
+    @Override
+    public String toString()
+    {
+        String result = "\n";
+        result += "Medlemsnummer: " + this.memberId + ", " + (active ? "Aktivt" : "Passivt") + " medlemskab";
+        result += "\nNavn: " + this.getName();
+        result += "\nAlder: " + this.getAgeOn(LocalDate.now()) + " år";
+        return result;
     }
 }
