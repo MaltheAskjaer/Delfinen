@@ -21,8 +21,8 @@ public class ClubPresident {
         members.add(member);
     }
 
-    public void addCompetitiveSwimmer(String firstName, String lastName, LocalDate birthday, boolean active){
-        CompetitiveSwimmer member = new CompetitiveSwimmer(firstName, lastName, birthday, active);
+    public void addCompetitiveSwimmer(String firstName, String lastName, LocalDate birthday, boolean active, ArrayList<Stroke> strokes){
+        CompetitiveSwimmer member = new CompetitiveSwimmer(firstName, lastName, birthday, active, strokes);
         members.add(member);
 
     }

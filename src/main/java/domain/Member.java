@@ -85,7 +85,8 @@ public class Member {
     public String toString()
     {
         String result = "\n";
-        result += "Medlemsnummer: " + this.memberId + ", " + (active ? "Aktivt" : "Passivt") + " medlemskab";
+        result += "Medlemsnummer: " + this.memberId;
+        result += "\nMedlemskab: " + (active ? "Aktivt" : "Passivt");
         result += "\nNavn: " + this.getName();
         result += "\nAlder: " + this.getAgeOn(LocalDate.now()) + " år";
         return result;

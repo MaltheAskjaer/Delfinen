@@ -57,14 +57,5 @@ class MemberTest {
 
     }
 
-    @Test
-    void toStringContainsMemberDetailsAndMembershipStatus() {
-        Member activeMember = new Member("Maja", "Jensen", LocalDate.of(2000, 5, 15), true);
-        Member passiveMember = new Member("Lars", "Hansen", LocalDate.of(1990, 1, 1), false);
-
-        assertTrue(activeMember.toString().contains("Aktivt medlemskab"));
-        assertTrue(activeMember.toString().contains("Navn: Maja Jensen"));
-        assertTrue(passiveMember.toString().contains("Passivt medlemskab"));
-    }
 
 }

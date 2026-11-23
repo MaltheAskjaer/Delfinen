@@ -1,11 +1,26 @@
 package domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class CompetitiveSwimmer extends Member {
 
-    public CompetitiveSwimmer(String firstName, String lastName, LocalDate birthday, boolean active) {
+    private ArrayList<Stroke> strokes;
+
+    public CompetitiveSwimmer(String firstName, String lastName, LocalDate birthday, boolean active, ArrayList<Stroke> strokes) {
         super(firstName, lastName, birthday, active);
+        if(strokes == null || strokes.isEmpty()){
+            throw new IllegalArgumentException("Aktive konkurrencesvømmere skal minimum have en disciplin registreret.");
+        }
+        this.strokes = strokes;
+    }
+
+    public ArrayList<Stroke> getStrokes() {
+        return strokes;
+    }
+
+    public void addStroke(Stroke stroke){
+        strokes.add(stroke);
     }
 
     @Override
@@ -19,6 +34,20 @@ public class CompetitiveSwimmer extends Member {
         {
             result += "\nHold: Senior";
         }
+        if(this.strokes.size() > 1){
+            result += "\nDiscipliner: ";
+        } else{
+            result += "\nDisciplin: ";
+        }
+
+        for(Stroke stroke : this.strokes){
+            if(this.strokes.get(this.strokes.size() - 1).equals(stroke)){
+                result += stroke.toString();
+                break;
+            }
+            result += stroke.toString() + ", ";
+        }
+
         return result;
     }
 

@@ -3,10 +3,13 @@ package ui;
 import controller.Controller;
 import domain.Member;
 import domain.MembershipFee;
+import domain.Stroke;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface
@@ -228,6 +231,7 @@ public class UserInterface
     private void addMember()
     {
         boolean competitive = false;
+        boolean active = false;
 
         System.out.println();
         String firstName = readName("Fornavn: ");
@@ -238,38 +242,52 @@ public class UserInterface
 
         LocalDate birthday = readDate("fødselsdag [dd-mm-åååå]: ");
 
-        System.out.println("""
-                
-                1. Aktivt medlemskab
-                2. Passivt medlemskab
-                """);
-        boolean active = switch (readInt("Vælg: "))
-        {
-            case 1 -> true;
-            case 2 -> false;
-            default -> false;
-        };
+        while(true){
+            System.out.println("""
+                    
+                    1. Aktivt medlemskab
+                    2. Passivt medlemskab
+                    """);
+            int choice = readInt("Vælg: ");
+            if(choice != 1 && choice != 2){
+                System.out.println("Ugyldigt valg! Vælg igen");
+            }
+            else if(choice == 1){
+                active = true;
+                break;
+            } else{
+                break;
+            }
+        }
 
         if (active)
         {
+            while(true){
             System.out.println("""
                     
                     1. Konkurrencesvømmer
                     2. Motionist
                     """);
-            competitive = switch (readInt("Vælg: "))
-            {
-                case 1 -> true;
-                case 2 -> false;
-                default -> false;
-            };
+            int choice = readInt("Vælg: ");
+            if(choice != 1 && choice != 2){
+                    System.out.println("Ugyldigt valg! Vælg igen");
+            }
+            else if(choice == 1){
+                competitive = true;
+                break;
+            } else{
+                break;
+            }
+            }
+
         }
 
         if (competitive)
         {
             try
             {
-                controller.addCompetitiveSwimmer(firstName, lastName, birthday, active);
+                controller.addCompetitiveSwimmer(firstName, lastName, birthday, active, addStrokes());
+                System.out.println("Medlem oprettet!");
             } catch (IllegalArgumentException e)
             {
                 System.out.println("Medlemmet blev ikke oprettet. " + e.getMessage());
@@ -280,10 +298,49 @@ public class UserInterface
         try
         {
             controller.addMember(firstName, lastName, birthday, active);
+            System.out.println("Medlem oprettet!");
         } catch (IllegalArgumentException e)
         {
             System.out.println("Medlemmet blev ikke oprettet. " + e.getMessage());
         }
+    }
+
+        public ArrayList<Stroke> addStrokes(){
+            System.out.println("Tilføj mindst en af følgende discipliner:\n");
+            ArrayList<Stroke> allStrokes = new ArrayList<>(List.of(Stroke.BUTTERFLY, Stroke.FRONTCRAWL, Stroke.BACKSTROKE, Stroke.BREASTSTROKE));
+            ArrayList<Stroke> selectedStrokes = new ArrayList<>();
+
+            while(true){
+                try{
+                    int count = 1;
+                    for(Stroke stroke : allStrokes){
+                        System.out.println(count + ". " + stroke.toString());
+                        count++;
+                    }
+                    int choice = readInt("Vælg: ");
+                    selectedStrokes.add(allStrokes.get(choice - 1));
+                    allStrokes.remove(choice - 1);
+                    break;
+                } catch(IndexOutOfBoundsException e){
+                    System.out.println("Ugyldigt valg! Vælg igen");
+                }
+            }
+
+            while(!allStrokes.isEmpty()){
+                int count = 1;
+                for(Stroke stroke : allStrokes){
+                    System.out.println(count + ". " + stroke.toString());
+                    count++;
+                }
+                int choice = readInt("Vælg (0 = fortsæt): ");
+                if(choice == 0){
+                    break;
+                }
+                selectedStrokes.add(allStrokes.get(choice - 1));
+                allStrokes.remove(choice - 1);
+            }
+
+            return selectedStrokes;
         }
 
 }
