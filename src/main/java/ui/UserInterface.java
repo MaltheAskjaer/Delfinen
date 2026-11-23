@@ -1,6 +1,9 @@
 package ui;
 
 import controller.Controller;
+import domain.Member;
+
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -37,13 +40,14 @@ public class UserInterface {
             while(true){
                 System.out.println("Du er nu logget ind som formand!\n");
                 System.out.println("""
-                1. Afslut program
+                1. Se medlemsliste
+                2. Afslut program
                 """);
                 int choice = readInt("Vælg: ");
 
                 switch(choice){
-                    case 1 -> {
-                        return;
+                    case 1 -> { showAllMembers(); }
+                    case 2 -> { return;
                     }
                     default -> System.out.println("Ugyldigt valg! Vælg igen");
                 }
@@ -121,6 +125,28 @@ public class UserInterface {
             }
         }
     }
+    private void showAllMembers() {
+        if (controller.getMembers().isEmpty()) {
+            System.out.println("Der er ingen medlemmer i klubben endnu.");
+        } else {
+            for (Member member : controller.getMembers()) {
+                int age = member.getAgeOn(LocalDate.now());
+                String status;
 
+                if (age < 18) {
+                    status = "Junior";
+                } else {
+                    status = "Senior";
+                }
+
+                System.out.println("Medlemsnummer: " + member.getMemberNumber());
+                System.out.println("Navn: " + member.getName());
+                System.out.println("Alder: " + age);
+                System.out.println("Status: " + status);
+                System.out.println("Medlemsform: " + member.getMembershipForm());
+                System.out.println();
+            }
+        }
+    }
 
 }
