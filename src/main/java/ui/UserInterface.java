@@ -56,14 +56,18 @@ public class UserInterface {
         if(checkPin(controller.getTreasurerPin())){
             System.out.println("Logget ind!");
             while(true){
-                System.out.println("Du er nu logget ind som formand!\n");
+                System.out.println("Du er nu logget ind som kasserer!\n");
                 System.out.println("""
-                1. Afslut program
+                1. Vis årskontingenter.
+                2. Afslut program
                 """);
                 int choice = readInt("Vælg: ");
 
                 switch(choice){
                     case 1 -> {
+
+                    }
+                    case 2 -> {
                         return;
                     }
                     default -> System.out.println("Ugyldigt valg! Vælg igen");
