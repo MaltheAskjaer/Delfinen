@@ -13,10 +13,48 @@ public class Member {
     public Member(String firstName, String lastName, LocalDate birthday, boolean active){
         this.memberId = nextId;
         nextId++;
+        setFirstName(firstName);
+        setLastName(lastName);
+        setBirthday(birthday);
+        setActive(active);
+    }
+
+    public void setFirstName(String firstName) {
+        if(firstName.isBlank()){
+            throw new IllegalArgumentException("Fornavn må ikke være tomt.");
+        }
+
+        if (!firstName.matches("[\\p{L}]+")) {
+            throw new IllegalArgumentException("Fornavn må kun indeholde bogstaver.");
+        }
+
         this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        if(lastName.isBlank()){
+            throw new IllegalArgumentException("Efternavn må ikke være tomt.");
+        }
+
+        if (!lastName.matches("[\\p{L}]+")) {
+            throw new IllegalArgumentException("Efternavn må kun indeholde bogstaver.");
+        }
+
         this.lastName = lastName;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        if(birthday.isAfter(LocalDate.now())){
+            throw new IllegalArgumentException("Fødselsdag må ikke være i fremtiden.");
+        }
         this.birthday = birthday;
+    }
+
+    public void setActive(boolean active) {
         this.active = active;
     }
 
+    public int getMemberId() {
+        return memberId;
+    }
 }

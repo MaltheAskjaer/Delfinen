@@ -193,11 +193,19 @@ public class UserInterface {
         }
 
         if(competitive){
-            controller.addCompetitiveSwimmer(firstName, lastName, birthday, active);
+            try {
+                controller.addCompetitiveSwimmer(firstName, lastName, birthday, active);
+            } catch(IllegalArgumentException e){
+                System.out.println("Medlemmet blev ikke oprettet. " + e.getMessage());
+            }
             return;
         }
 
-        controller.addMember(firstName, lastName, birthday, active);
+        try{
+            controller.addMember(firstName, lastName, birthday, active);
+        } catch(IllegalArgumentException e){
+            System.out.println("Medlemmet blev ikke oprettet. " + e.getMessage());
+        }
     }
 
 }
