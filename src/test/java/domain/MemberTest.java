@@ -37,4 +37,14 @@ class MemberTest {
 
     }
 
+    @Test
+    void alderenSkifterPåFødselsdag(){
+        LocalDate dayBefore18thBirthday = LocalDate.of(2026, 11, 23);
+        LocalDate eighteenthBirthday = LocalDate.of(2026, 11, 24);
+        Member member = new Member("Jason", "Duval", LocalDate.of(2008, 11, 24), true);
+
+        assertEquals(17, member.calculateAge(dayBefore18thBirthday));
+        assertEquals(18, member.calculateAge(eighteenthBirthday));
+    }
+
 }
