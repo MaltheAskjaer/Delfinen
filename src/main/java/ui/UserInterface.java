@@ -63,18 +63,25 @@ public class UserInterface {
             System.out.println("Du er nu logget ind som kasserer!\n");
             while(true){
                 System.out.println("""
-                1. Afslut program
+                1. Vis årskontingenter.
+                2. Afslut program
                 """);
                 int choice = readInt("Vælg: ");
 
                 switch(choice){
-                    case 1 -> {
+                    case 1 -> showMembershipFees();
+                    case 2 -> {
                         return;
                     }
                     default -> System.out.println("Ugyldigt valg! Vælg igen");
                 }
             }
         }
+    }
+
+    private void showMembershipFees(){
+        System.out.println("Årskontingenter: \n");
+        
     }
 
     private void trainerStart(){
