@@ -15,12 +15,29 @@ public class CompetitiveSwimmer extends Member {
         this.strokes = strokes;
     }
 
+    // Genskaber en svømmer med medlemsnummeret og disciplinerne fra filerne.
+    public CompetitiveSwimmer(int id, String firstName, String lastName, LocalDate birthday, boolean active, ArrayList<Stroke> strokes){
+        super(id, firstName, lastName, birthday, active);
+        if(strokes == null || strokes.isEmpty()){
+            throw new IllegalArgumentException("Aktive konkurrencesvømmere skal minimum have en disciplin regisreret");
+        }
+        this.strokes = strokes;
+    }
+
+    // FileHandler får svømmerens discipliner via denne version af getStrokes().
+    @Override
     public ArrayList<Stroke> getStrokes() {
         return strokes;
     }
 
     public void addStroke(Stroke stroke){
         strokes.add(stroke);
+    }
+
+    // Typen fortæller FileHandler, at medlemmet skal genskabes som konkurrencesvømmer.
+    @Override
+    public String getMemberType(){
+        return "COMPETITIVE";
     }
 
     @Override

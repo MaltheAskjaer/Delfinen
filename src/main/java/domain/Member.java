@@ -4,6 +4,7 @@ import java.time.Period;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 public class Member {
 
@@ -14,13 +15,27 @@ public class Member {
     private LocalDate birthday;
     private boolean active;
 
-    public Member(String firstName, String lastName, LocalDate birthday, boolean active){
-        this.memberId = nextId;
-        nextId++;
+    public Member(String firstName, String lastName, LocalDate birthday, boolean active) {
         setFirstName(firstName);
         setLastName(lastName);
         setBirthday(birthday);
         setActive(active);
+        this.memberId = nextId;
+        nextId++;
+    }
+
+    // Bruges ved indlæsning, så medlemmet beholder sit medlemsnummer fra filen.
+    public Member(int id, String firstName, String lastName, LocalDate birthday, boolean active){
+        setFirstName(firstName);
+        setLastName(lastName);
+        setBirthday(birthday);
+        setActive(active);
+        this.memberId = id;
+
+        // Nye medlemmer skal have et nummer over dem, vi allerede har indlæst.
+        if(id >= nextId){
+            nextId = id + 1;
+        }
     }
 
     public void setFirstName(String firstName) {
@@ -62,13 +77,31 @@ public class Member {
         return active;
     }
 
+    // Medlemstypen bliver skrevet i sidste kolonne i medlemsfilen.
+    public String getMemberType(){
+        if(active){
+            return "RECREATIONAL";
+        }
+        return "PASSIVE";
+    }
+
+    // Almindelige medlemmer har ingen konkurrencediscipliner at gemme.
+    public ArrayList<Stroke> getStrokes(){
+        return new ArrayList<>();
+    }
+
     public int getMemberId() {
         return memberId;
     }
 
-    public String getName()
+    public String getFirstName()
     {
-        return this.firstName + " " + this.lastName;
+        return this.firstName;
+    }
+
+    public String getLastName()
+    {
+        return this.lastName;
     }
 
     public LocalDate getBirthday()
@@ -87,7 +120,7 @@ public class Member {
         String result = "\n";
         result += "Medlemsnummer: " + this.memberId;
         result += "\nMedlemskab: " + (active ? "Aktivt" : "Passivt");
-        result += "\nNavn: " + this.getName();
+        result += "\nNavn: " + this.getFirstName() + " " + this.getLastName();
         result += "\nAlder: " + this.getAgeOn(LocalDate.now()) + " år";
         return result;
     }

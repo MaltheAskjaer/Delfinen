@@ -42,7 +42,7 @@ class MemberTest {
         LocalDate birthday = LocalDate.of(2000, 5, 15);
         Member member = new Member("Maja", "Jensen", birthday, true);
 
-        assertEquals("Maja Jensen", member.getName());
+        assertEquals("Maja Jensen", member.getFirstName() + " " + member.getLastName());
         assertEquals(birthday, member.getBirthday());
     }
 

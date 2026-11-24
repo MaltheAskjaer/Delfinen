@@ -5,6 +5,7 @@ import domain.Member;
 import domain.MembershipFee;
 import domain.Stroke;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -17,8 +18,13 @@ public class UserInterface
     Scanner scanner = new Scanner(System.in);
     Controller controller = new Controller();
 
-    public void start()
-    {
+    public void start() {
+        // Læs de gemte medlemmer én gang, før hovedmenuen vises.
+        try {
+            controller.load();
+        } catch (FileNotFoundException e){
+            System.out.println("Ingen gemte medlemmer fundet. Klubben starter tom.");
+        }
         while (true)
         {
             System.out.println("Velkommen til Delfinen!\n");
@@ -36,9 +42,17 @@ public class UserInterface
                 case 1 -> presidentStart();
                 case 2 -> treasurerStart();
                 case 3 -> trainerStart();
-                case 4 ->
-                {
-                    return;
+                case 4 -> {
+                    if(controller.getSkippedLineCount() > 0){
+                        System.out.println("Programmet lukker uden at gemme, fordi nogle medlemslinjer ikke kunne indlæses.");
+                        return;
+                    }
+                    try {
+                        controller.save();
+                        return;
+                    } catch (FileNotFoundException e){
+                        System.out.println("Kunne ikke gemme medlemmerne: " + e.getMessage());
+                    }
                 }
                 default -> System.out.println("Ugyldigt valg! Vælg igen");
             }
@@ -108,7 +122,7 @@ public class UserInterface
         for(Member member : controller.getMembers()){
             int age = member.getAgeOn(date);
             int amount = MembershipFee.calculateAmount(age, member.isActive());
-            System.out.println(member.getName() + " - " + amount + " kr.");
+            System.out.println(member.getFirstName() + " " + member.getLastName() + " - " + amount + " kr.");
         }
         System.out.println();
     }
