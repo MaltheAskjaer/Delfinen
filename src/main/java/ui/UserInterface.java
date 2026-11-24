@@ -57,7 +57,7 @@ public class UserInterface
                 System.out.println("""
                         1. Opret medlem
                         2. Se medlemsliste
-                        3. Afslut program
+                        3. Gå til menu
                         """);
                 int choice = readInt("Vælg: ");
 
@@ -85,7 +85,7 @@ public class UserInterface
             {
                 System.out.println("""
                         1. Vis årskontingent.
-                        2. Afslut program
+                        2. Gå til menu
                         """);
                 int choice = readInt("Vælg: ");
 
@@ -121,7 +121,7 @@ public class UserInterface
             while (true)
             {
                 System.out.println("""
-                        1. Afslut program
+                        1. Gå til menu
                         """);
                 int choice = readInt("Vælg: ");
 
