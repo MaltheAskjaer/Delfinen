@@ -62,8 +62,8 @@ public class Member {
         return active;
     }
 
-    public int getMemberId() {
-        return memberId;
+    public String getMemberId() {
+        return String.format("%04d", this.memberId);
     }
 
     public String getName()
@@ -85,7 +85,7 @@ public class Member {
     public String toString()
     {
         String result = "\n";
-        result += "Medlemsnummer: " + this.memberId;
+        result += "Medlemsnummer: " + getMemberId();
         result += "\nMedlemskab: " + (active ? "Aktivt" : "Passivt");
         result += "\nNavn: " + this.getName();
         result += "\nAlder: " + this.getAgeOn(LocalDate.now()) + " år";
