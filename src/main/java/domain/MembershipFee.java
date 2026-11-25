@@ -33,6 +33,7 @@ public class MembershipFee {
 
     public void setNewAmount(int age, boolean active){
         amount = calculateAmount(age, active);
+        this.paid = false;
         this.paidDate = null;
     }
 

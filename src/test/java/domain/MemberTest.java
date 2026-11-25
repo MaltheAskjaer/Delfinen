@@ -57,5 +57,20 @@ class MemberTest {
 
     }
 
+    @Test
+    void setNewAmountUpdatesFeeWhenMemberTurns18() {
+        LocalDate today = LocalDate.now();
+        Member member = new Member(
+                "Maja", "Jensen",
+                today.minusYears(18).plusDays(1),
+                true
+        );
 
+        assertEquals(1000, member.getMembershipFeeAmount());
+
+        member.setBirthday(today.minusYears(18));
+        member.setNewAmount();
+
+        assertEquals(1600, member.getMembershipFeeAmount());
+    }
 }

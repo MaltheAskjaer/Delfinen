@@ -71,18 +71,20 @@ public class UserInterface {
             while (true) {
                 System.out.println("""
                         
-                        1. Vis årskontingent
-                        2. Registrer betaling
-                        3. Start nyt betalingsår
-                        4. Gå til menu
+                        1. Find årskontingent
+                        2. Vis alle kontingenter
+                        3. Registrer betaling
+                        4. Start nyt betalingsår
+                        5. Gå til menu
                         """);
                 int choice = readInt("Vælg: ");
 
                 switch (choice) {
                     case 1 -> showMembershipFee();
-                    case 2 -> recordPayment();
-                    case 3 -> startNewPaymentYear();
-                    case 4 -> {
+                    case 2 -> showAllMembershipFees();
+                    case 3 -> recordPayment();
+                    case 4 -> startNewPaymentYear();
+                    case 5 -> {
                         return;
                     }
                     default -> System.out.println("Ugyldigt valg! Vælg igen");
@@ -107,6 +109,19 @@ public class UserInterface {
                 System.out.println("\nmedlem blev ikke fundet");
             }
 
+    }
+
+    public void showAllMembershipFees(){
+        if(controller.getMembers() == null || controller.getMembers().isEmpty()){
+            System.out.println("\nMedlemslisten er tom");
+            return;
+        }
+        LocalDate date = LocalDate.now();
+        System.out.println("\nÅrskontingenter: ");
+        for(Member member : controller.getMembers()){
+            System.out.println(member.getName() + " - " + member.getMembershipFeeAmount() + " kr.");
+        }
+        System.out.println();
     }
 
     public void recordPayment(){
