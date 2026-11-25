@@ -77,6 +77,10 @@ public class Member {
         return active;
     }
 
+    public String getMemberId() {
+        return String.format("%04d", this.memberId);
+    }
+
     // Medlemstypen bliver skrevet i sidste kolonne i medlemsfilen.
     public String getMemberType(){
         if(active){
@@ -88,10 +92,6 @@ public class Member {
     // Almindelige medlemmer har ingen konkurrencediscipliner at gemme.
     public ArrayList<Stroke> getStrokes(){
         return new ArrayList<>();
-    }
-
-    public int getMemberId() {
-        return memberId;
     }
 
     public String getFirstName()
@@ -118,7 +118,7 @@ public class Member {
     public String toString()
     {
         String result = "\n";
-        result += "Medlemsnummer: " + this.memberId;
+        result += "Medlemsnummer: " + getMemberId();
         result += "\nMedlemskab: " + (active ? "Aktivt" : "Passivt");
         result += "\nNavn: " + this.getFirstName() + " " + this.getLastName();
         result += "\nAlder: " + this.getAgeOn(LocalDate.now()) + " år";
