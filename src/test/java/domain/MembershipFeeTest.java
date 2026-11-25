@@ -9,37 +9,36 @@ class MembershipFeeTest {
 
     @Test
     void active17yearOldPays1000(){
-        int amount = MembershipFee.calculateAmount(17, true);
+        MembershipFee membershipFee = new MembershipFee(17, true);
 
-        assertEquals(1000, amount);
+        assertEquals(1000, membershipFee.getAmount());
     }
 
     @Test
     void active18yearOldPays1600(){
-        int amount = MembershipFee.calculateAmount(18, true);
+        MembershipFee membershipFee = new MembershipFee(18, true);
 
-        assertEquals(1600, amount);
+        assertEquals(1600, membershipFee.getAmount());
     }
 
     @Test
     void active59yearOldPays1600(){
-        int amount = MembershipFee.calculateAmount(59, true);
+        MembershipFee membershipFee = new MembershipFee(59, true);
 
-        assertEquals(1600, amount);
+        assertEquals(1600, membershipFee.getAmount());
     }
 
     @Test
     void active60yearOldPays1200(){
-        int amount = MembershipFee.calculateAmount(60, true);
+        MembershipFee membershipFee = new MembershipFee(60, true);
 
-        assertEquals(1200, amount);
+        assertEquals(1200, membershipFee.getAmount());
     }
 
     @Test
     void passive60yearOldPays500(){
-        int amount = MembershipFee.calculateAmount(60, false);
-
-        assertEquals(500, amount);
+        MembershipFee membershipFee = new MembershipFee(60, false);
+        assertEquals(500, membershipFee.getAmount());
     }
 
 }
