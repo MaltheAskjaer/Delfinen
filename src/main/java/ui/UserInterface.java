@@ -115,7 +115,7 @@ public class UserInterface {
             if(member != null) {
                 System.out.println("\nÅrskontingent: ");
 
-                System.out.println(member.getName() + " - " + controller.getMembershipFeeAmount(member) + " kr.");
+                System.out.println(member.getFirstName() + " " + member.getLastName() + " - " + controller.getMembershipFeeAmount(member) + " kr.");
                 if(member.hasPaid()){
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                     System.out.println("Betalt d. " + member.getPaidDate().format(formatter));
@@ -137,7 +137,7 @@ public class UserInterface {
         System.out.println("\nÅrskontingenter: ");
         for(Member member : controller.getMembers()){
             int age = member.getAgeOn(date);
-            int amount = MembershipFee.calculateAmount(age, member.isActive());
+            int amount = controller.getMembershipFeeAmount(member);
             System.out.println(member.getFirstName() + " " + member.getLastName() + " - " + amount + " kr.");
         }
         System.out.println();

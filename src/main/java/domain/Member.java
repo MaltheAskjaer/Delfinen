@@ -16,6 +16,7 @@ public class Member {
     private boolean active;
     private MembershipFee membershipfee;
 
+    //Formanden opretter et nyt medlem.
     public Member(String firstName, String lastName, LocalDate birthday, boolean active) {
         setFirstName(firstName);
         setLastName(lastName);
@@ -23,6 +24,7 @@ public class Member {
         setActive(active);
         this.memberId = nextId;
         nextId++;
+        membershipfee = new MembershipFee(getAgeOn(LocalDate.now()), active);
     }
 
     // Bruges ved indlæsning, så medlemmet beholder sit medlemsnummer fra filen.
@@ -32,12 +34,13 @@ public class Member {
         setBirthday(birthday);
         setActive(active);
         this.memberId = id;
+        membershipfee = new MembershipFee(getAgeOn(LocalDate.now()), active);
+
 
         // Nye medlemmer skal have et nummer over dem, vi allerede har indlæst.
         if(id >= nextId){
             nextId = id + 1;
         }
-        membershipfee = new MembershipFee(getAgeOn(LocalDate.now()), active);
     }
 
     public int getMembershipFeeAmount(){
@@ -58,6 +61,10 @@ public class Member {
 
     public void setPaid(boolean paid){
         this.membershipfee.setPaid(paid);
+    }
+
+    public void restorePayment(LocalDate date) {
+        membershipfee.restorePayment(date);
     }
 
     public void setFirstName(String firstName) {

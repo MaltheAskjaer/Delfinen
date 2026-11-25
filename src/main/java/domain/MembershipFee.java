@@ -31,6 +31,11 @@ public class MembershipFee {
         this.paidDate = LocalDate.now();
     }
 
+    public void restorePayment(LocalDate date) {
+        paid = true;
+        paidDate = date;
+    }
+
     public void setNewAmount(int age, boolean active){
         amount = calculateAmount(age, active);
         this.paid = false;

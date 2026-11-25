@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileHandler {
-    private static final String MEMBER_HEADER = "id;firstName;lastName;birthday;memberType";
+    private static final String MEMBER_HEADER = "id;firstName;lastName;birthday;memberType;paid;paidDate";
     private static final String STROKE_HEADER = "memberId;stroke";
     private int skippedLineCount;
     private final String memberFile;
@@ -39,9 +39,13 @@ public class FileHandler {
         strokes.println(STROKE_HEADER);
 
         for (Member member : memberList) {
+            String paidDate = "";
+            if(member.getPaidDate() != null){
+                paidDate = member.getPaidDate().toString();
+            }
             members.println(member.getMemberId() + ";" + member.getFirstName() + ";"
                     + member.getLastName() + ";" + member.getBirthday() + ";"
-                    + member.getMemberType());
+                    + member.getMemberType() + ";" + member.hasPaid() + ";" + paidDate);
 
             // Medlemsnummeret knytter disciplinen til medlemmet i den anden fil.
             for (Stroke stroke : member.getStrokes()) {
@@ -68,7 +72,7 @@ public class FileHandler {
             String line = fileScanner.nextLine();
             // -1 bevarer tomme felter sidst på linjen til kontrollen af antal felter.
             String[] parts = line.split(";", -1);
-            if (parts.length != 5) {
+            if (parts.length != 7) {
                 skippedLineCount++;
                 continue;
             }
@@ -96,7 +100,13 @@ public class FileHandler {
                     memberList.add(new Member(id, firstName, lastName, birthday, active));
                 } else {
                     skippedLineCount++;
+                    continue;
                 }
+
+                if(parts[5].equals("true")){
+                    Member member = memberList.get(memberList.size() - 1);
+                    member.restorePayment(LocalDate.parse(parts[6]));
+                    }
             } catch (IllegalArgumentException e) {
                 skippedLineCount++;
             } catch (DateTimeParseException e) {

@@ -45,6 +45,8 @@ class FileHandlerTest {
         FileHandler fileHandler = new FileHandler(TEST_MEMBER_FILE, TEST_STROKE_FILE);
         LocalDate birthday = LocalDate.of(2000, 5, 12);
         Member member = new Member("Søren", "Lund", birthday, true);
+        LocalDate paymentDate = LocalDate.of(2026, 11, 20);
+        member.restorePayment(paymentDate);
         ArrayList<Member> members = new ArrayList<>();
         members.add(member);
 
@@ -55,6 +57,8 @@ class FileHandlerTest {
         // Assert
         assertEquals(1, loadedMembers.size());
         Member loadedMember = loadedMembers.get(0);
+        assertTrue(loadedMember.hasPaid());
+        assertEquals(paymentDate, loadedMember.getPaidDate());
         assertEquals(member.getMemberId(), loadedMember.getMemberId());
         assertEquals("Søren", loadedMember.getFirstName());
         assertEquals("Lund", loadedMember.getLastName());
@@ -77,10 +81,10 @@ class FileHandlerTest {
         // Arrange
         FileHandler fileHandler = new FileHandler(TEST_MEMBER_FILE, TEST_STROKE_FILE);
         PrintStream file = new PrintStream(new File(TEST_MEMBER_FILE));
-        file.println("id;firstName;lastName;birthday;memberType");
-        file.println("abc;Anna;Lund;2000-05-12;PASSIVE");
-        file.println("18;Ida;Lund;2000-13-12;PASSIVE");
-        file.println("17;Emil;Jensen;1998-03-21;RECREATIONAL");
+        file.println("id;firstName;lastName;birthday;memberType;paid;paidDate");
+        file.println("abc;Anna;Lund;2000-05-12;PASSIVE;false;");
+        file.println("18;Ida;Lund;2000-13-12;PASSIVE;false;");
+        file.println("17;Emil;Jensen;1998-03-21;RECREATIONAL;false;");
         file.close();
 
         // Act
