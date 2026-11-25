@@ -33,7 +33,7 @@ class MemberTest {
         Member member2 = new Member("Lucia", "Caminos", LocalDate.of(2000, 10, 19), true);
 
         assertNotEquals(member.getMemberId(), member2.getMemberId());
-        assertEquals(Integer.parseInt(member.getMemberId()) + 1, Integer.parseInt(member2.getMemberId()));
+        assertEquals(member.getMemberId() + 1, member2.getMemberId());
 
     }
 
@@ -57,5 +57,20 @@ class MemberTest {
 
     }
 
+    @Test
+    void setNewAmountUpdatesFeeWhenMemberTurns18() {
+        LocalDate today = LocalDate.now();
+        Member member = new Member(
+                "Maja", "Jensen",
+                today.minusYears(18).plusDays(1),
+                true
+        );
 
+        assertEquals(1000, member.getMembershipFeeAmount());
+
+        member.setBirthday(today.minusYears(18));
+        member.setNewAmount();
+
+        assertEquals(1600, member.getMembershipFeeAmount());
+    }
 }

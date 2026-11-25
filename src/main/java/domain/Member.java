@@ -14,6 +14,7 @@ public class Member {
     private String lastName;
     private LocalDate birthday;
     private boolean active;
+    private MembershipFee membershipfee;
 
     public Member(String firstName, String lastName, LocalDate birthday, boolean active) {
         setFirstName(firstName);
@@ -36,6 +37,27 @@ public class Member {
         if(id >= nextId){
             nextId = id + 1;
         }
+        membershipfee = new MembershipFee(getAgeOn(LocalDate.now()), active);
+    }
+
+    public int getMembershipFeeAmount(){
+        return this.membershipfee.getAmount();
+    }
+
+    public LocalDate getPaidDate(){
+        return this.membershipfee.getPaidDate();
+    }
+
+    public void setNewAmount(){
+        this.membershipfee.setNewAmount(this.getAgeOn(LocalDate.now()), active);
+    }
+
+    public boolean hasPaid(){
+        return this.membershipfee.isPaid();
+    }
+
+    public void setPaid(boolean paid){
+        this.membershipfee.setPaid(paid);
     }
 
     public void setFirstName(String firstName) {
@@ -77,8 +99,12 @@ public class Member {
         return active;
     }
 
-    public String getMemberId() {
+    public String getFormattedMemberId() {
         return String.format("%04d", this.memberId);
+    }
+
+    public int getMemberId(){
+        return this.memberId;
     }
 
     // Medlemstypen bliver skrevet i sidste kolonne i medlemsfilen.
@@ -118,7 +144,7 @@ public class Member {
     public String toString()
     {
         String result = "\n";
-        result += "Medlemsnummer: " + getMemberId();
+        result += "Medlemsnummer: " + getFormattedMemberId();
         result += "\nMedlemskab: " + (active ? "Aktivt" : "Passivt");
         result += "\nNavn: " + this.getFirstName() + " " + this.getLastName();
         result += "\nAlder: " + this.getAgeOn(LocalDate.now()) + " år";
