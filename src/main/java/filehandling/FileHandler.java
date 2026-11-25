@@ -60,7 +60,7 @@ public class FileHandler {
         ArrayList<Member> memberList = new ArrayList<>();
         Scanner fileScanner = new Scanner(new File(memberFile));
 
-        // Første linje er kolonneoverskriften.
+        // Første linje er overskriften.
         if (fileScanner.hasNextLine()) {
             fileScanner.nextLine();
         }

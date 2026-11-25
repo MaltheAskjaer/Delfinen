@@ -33,7 +33,7 @@ class MemberTest {
         Member member2 = new Member("Lucia", "Caminos", LocalDate.of(2000, 10, 19), true);
 
         assertNotEquals(member.getMemberId(), member2.getMemberId());
-        assertEquals(member.getMemberId() + 1, member2.getMemberId());
+        assertEquals(Integer.parseInt(member.getMemberId()) + 1, Integer.parseInt(member2.getMemberId()));
 
     }
 
