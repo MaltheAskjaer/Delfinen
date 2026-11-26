@@ -41,7 +41,32 @@ public class Controller {
 
     public ArrayList<Member> getMembers(){
         return president.getMembers();
+    }
 
+    public int getMembershipFeeAmount(Member member){
+        return treasurer.getFeeAmount(member);
+    }
+
+    public void recordPayment(Member member){
+        treasurer.recordPayment(member, true);
+    }
+
+    public Member searchMember(int memberId){
+        if(getMembers() == null || getMembers().isEmpty()){
+            throw new IllegalArgumentException("Medlemslisten er tom");
+        }
+
+        for(Member member : getMembers()){
+            if(member.getMemberId() == memberId){
+                return member;
+            }
+        }
+
+        return null;
+    }
+
+    public void startNewPaymentYear(){
+        treasurer.startNewPaymentYear(getMembers());
     }
     public boolean addTrainingResult(int memberId, TrainingResult result) {
         Member member = findMemberById(memberId);
