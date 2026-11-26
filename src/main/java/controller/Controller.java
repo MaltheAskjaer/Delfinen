@@ -88,10 +88,9 @@ public class Controller {
     }
 
     private Member findMemberById(int memberId) {
-        String formattedMemberId = String.format("%04d", memberId);
 
         for (Member member : getMembers()) {
-            if (member.getMemberId().equals(formattedMemberId)) {
+            if (member.getMemberId() == memberId) {
                 return member;
             }
         }
