@@ -99,6 +99,7 @@ public class CompetitiveSwimmer extends Member {
         return true;
     }
 
+    @Override
     public TrainingResult getBestTrainingResult(Stroke stroke) {
         for (TrainingResult result : bestTrainingResults) {
             if (result.getStroke() == stroke) {

@@ -11,10 +11,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import domain.TrainingResult;
 
 public class FileHandler {
     private static final String MEMBER_HEADER = "id;firstName;lastName;birthday;memberType;paid;paidDate";
-    private static final String STROKE_HEADER = "memberId;stroke";
+    private static final String STROKE_HEADER = "memberId;stroke;timeInSeconds;date";
     private int skippedLineCount;
     private final String memberFile;
     private final String strokeFile;
@@ -49,7 +50,14 @@ public class FileHandler {
 
             // Medlemsnummeret knytter disciplinen til medlemmet i den anden fil.
             for (Stroke stroke : member.getStrokes()) {
-                strokes.println(member.getMemberId() + ";" + stroke.name());
+                TrainingResult result = member.getBestTrainingResult(stroke);
+                String line = member.getMemberId() + ";" + stroke.name();
+
+                if(result != null){
+                    strokes.println(line + ";" + result.getTimeInSeconds() + ";" + result.getDate());
+                } else {
+                    strokes.println(line + ";;");
+                }
             }
         }
 
@@ -90,12 +98,21 @@ public class FileHandler {
 
                 // Konstruktøren kræver mindst én disciplin, så vi læser dem først.
                 if (memberType.equals("COMPETITIVE")) {
-                    ArrayList<Stroke> strokes = loadStrokes(id);
+                    ArrayList<TrainingResult> results = new ArrayList<>();
+                    ArrayList<Stroke> strokes = loadStrokes(id, results);
                     if (strokes.isEmpty()) {
                         skippedLineCount++;
                         continue;
                     }
-                    memberList.add(new CompetitiveSwimmer(id, firstName, lastName, birthday, active, strokes));
+
+                    CompetitiveSwimmer swimmer = new CompetitiveSwimmer(id, firstName, lastName, birthday, active, strokes);
+
+                    for(TrainingResult result : results){
+                        swimmer.addTrainingResult(result);
+                    }
+
+                    memberList.add(swimmer);
+
                 } else if (memberType.equals("PASSIVE") || memberType.equals("RECREATIONAL")) {
                     memberList.add(new Member(id, firstName, lastName, birthday, active));
                 } else {
@@ -118,7 +135,7 @@ public class FileHandler {
     }
 
     // Finder disciplinlinjerne for det medlemsnummer, vi er ved at indlæse.
-    private ArrayList<Stroke> loadStrokes(int memberId) throws FileNotFoundException {
+    private ArrayList<Stroke> loadStrokes(int memberId, ArrayList<TrainingResult> results) throws FileNotFoundException {
         ArrayList<Stroke> strokes = new ArrayList<>();
         File file = new File(strokeFile);
 
@@ -139,13 +156,18 @@ public class FileHandler {
                 int id = Integer.parseInt(parts[0]);
 
                 if (id == memberId) {
-                    if (parts.length != 2) {
-                        throw new IllegalArgumentException("Disciplinlinjen skal have to felter.");
+                    if (parts.length != 4) {
+                        throw new IllegalArgumentException("Disciplinlinjen skal have fire felter.");
                     }
 
-                    // Fx bliver teksten FRONTCRAWL til værdien Stroke.FRONTCRAWL.
                     Stroke stroke = Stroke.valueOf(parts[1]);
                     strokes.add(stroke);
+
+                    if(!parts[2].isEmpty() || !parts[3].isEmpty()){
+                        int timeInSeconds = Integer.parseInt(parts[2]);
+                        LocalDate date = LocalDate.parse(parts[3]);
+                        results.add(new TrainingResult(timeInSeconds, date, stroke));
+                    }
                 }
             }
         } catch (IllegalArgumentException e) {

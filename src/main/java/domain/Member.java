@@ -127,6 +127,10 @@ public class Member {
         return new ArrayList<>();
     }
 
+    public TrainingResult getBestTrainingResult(Stroke stroke){
+        return null;
+    }
+
     public String getFirstName()
     {
         return this.firstName;
