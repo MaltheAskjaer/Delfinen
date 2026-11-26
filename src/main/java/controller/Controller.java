@@ -43,5 +43,34 @@ public class Controller {
         return president.getMembers();
 
     }
+    public boolean addTrainingResult(int memberId, TrainingResult result) {
+        Member member = findMemberById(memberId);
 
+        if (member == null) {
+            throw new IllegalArgumentException(
+                    "Der findes ikke et medlem med det medlemsnummer."
+            );
+        }
+
+        if (!(member instanceof CompetitiveSwimmer)) {
+            throw new IllegalArgumentException(
+                    "Medlemmet er ikke en konkurrencesvømmer."
+            );
+        }
+
+        CompetitiveSwimmer swimmer = (CompetitiveSwimmer) member;
+        return swimmer.addTrainingResult(result);
+    }
+
+    private Member findMemberById(int memberId) {
+        String formattedMemberId = String.format("%04d", memberId);
+
+        for (Member member : getMembers()) {
+            if (member.getMemberId().equals(formattedMemberId)) {
+                return member;
+            }
+        }
+
+        return null;
+    }
 }
