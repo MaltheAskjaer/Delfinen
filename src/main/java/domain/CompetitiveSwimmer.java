@@ -68,4 +68,45 @@ public class CompetitiveSwimmer extends Member {
         return result;
     }
 
+    private ArrayList<TrainingResult> bestTrainingResults = new ArrayList<>();
+
+    public boolean addTrainingResult(TrainingResult result) {
+
+        if (result == null) {
+            throw new IllegalArgumentException("Træningsresultatet mangler.");
+        }
+
+        if (!strokes.contains(result.getStroke())) {
+            throw new IllegalArgumentException(
+                    "Svømmeren er ikke aktiv i disciplinen " + result.getStroke()
+            );
+        }
+        for (int i = 0; i < bestTrainingResults.size(); i++) {
+            TrainingResult currentResult = bestTrainingResults.get(i);
+
+            if (currentResult.getStroke() == result.getStroke()) {
+                if (result.getTimeInSeconds()
+                        < currentResult.getTimeInSeconds()) {
+                    bestTrainingResults.set(i, result);
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        bestTrainingResults.add(result);
+        return true;
+    }
+
+    public TrainingResult getBestTrainingResult(Stroke stroke) {
+        for (TrainingResult result : bestTrainingResults) {
+            if (result.getStroke() == stroke) {
+                return result;
+            }
+        }
+
+        return null;
+    }
+
 }

@@ -3,6 +3,7 @@ package ui;
 import controller.Controller;
 import domain.Member;
 import domain.Stroke;
+import domain.TrainingResult;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -194,21 +195,78 @@ public class UserInterface {
     private void trainerStart() {
         if (correctPin(controller.getTrainerPin())) {
             System.out.println("Du er nu logget ind som træner!\n");
-            while (true) {
+            while (true)
+            {
                 System.out.println("""
-                        1. Gå til menu
-                        """);
+                    1. Registrér træningstid
+                    2. Gå til menu
+                    """);
+
                 int choice = readInt("Vælg: ");
 
                 switch (choice) {
-                    case 1 -> {
+                    case 1 -> registerTrainingResult();
+                    case 2 -> {
                         return;
                     }
-                    default -> System.out.println("Ugyldigt valg! Vælg igen");
+                    default -> System.out.println("Ugyldigt valg! Vælg igen.");
                 }
             }
         }
+    }
 
+    private void registerTrainingResult() {
+        int memberId = readInt("Medlemsnummer: ");
+        long timeInSeconds = readLong("Tid i sekunder: ");
+        LocalDate date = readDate("Dato [dd-MM-yyyy]: ");
+        Stroke stroke = readStroke();
+
+        try {
+            TrainingResult result = new TrainingResult(timeInSeconds, date, stroke);
+
+            boolean becameBest = controller.addTrainingResult(memberId, result);
+
+            if (becameBest) {
+                System.out.println("Den bedste tid er registreret.");
+            } else {
+                System.out.println( "Tiden var ikke hurtigere end den nuværende bedste tid.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Registreringen blev afvist. " + e.getMessage());
+        }
+    }
+
+    private Stroke readStroke() {
+        Stroke[] strokes = Stroke.values();
+
+        while (true) {
+            System.out.println("\nVælg disciplin:");
+
+            for (int i = 0; i < strokes.length; i++) {
+                System.out.println((i + 1) + ". " + strokes[i]);
+            }
+
+            int choice = readInt("Vælg: ");
+
+            if (choice >= 1 && choice <= strokes.length) {
+                return strokes[choice - 1];
+            }
+
+            System.out.println("Ugyldigt valg! Vælg en disciplin fra listen.");
+        }
+    }
+
+    private long readLong(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine().trim();
+
+            try {
+                return Long.parseLong(input);
+            } catch (NumberFormatException e) {
+                System.out.println( "Du skal skrive et helt tal i sekunder.");
+            }
+        }
     }
 
     private boolean correctPin(int otherPin) {
@@ -220,6 +278,7 @@ public class UserInterface {
             if (pin == otherPin) {
                 return true;
             }
+
             System.out.println("Forkert kode! Prøv igen\n");
         } while (true);
 

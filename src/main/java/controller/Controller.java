@@ -69,7 +69,35 @@ public class Controller {
     public void startNewPaymentYear(){
         treasurer.startNewPaymentYear(getMembers());
     }
+    public boolean addTrainingResult(int memberId, TrainingResult result) {
+        Member member = findMemberById(memberId);
 
+        if (member == null) {
+            throw new IllegalArgumentException(
+                    "Der findes ikke et medlem med det medlemsnummer."
+            );
+        }
+
+        if (!(member instanceof CompetitiveSwimmer)) {
+            throw new IllegalArgumentException(
+                    "Medlemmet er ikke en konkurrencesvømmer."
+            );
+        }
+
+        CompetitiveSwimmer swimmer = (CompetitiveSwimmer) member;
+        return swimmer.addTrainingResult(result);
+    }
+
+    private Member findMemberById(int memberId) {
+
+        for (Member member : getMembers()) {
+            if (member.getMemberId() == memberId) {
+                return member;
+            }
+        }
+
+        return null;
+    }
     // Giver klubbens medlemsliste videre til FileHandler, når programmet skal gemme.
     public void save() throws FileNotFoundException {
         fileHandler.save(getMembers());
